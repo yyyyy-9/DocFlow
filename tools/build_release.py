@@ -23,7 +23,8 @@ def source_files(tests):
             rel = path.relative_to(ROOT)
             if any(part in EXCLUDE for part in rel.parts) or not path.is_file() or path.suffix in ('.pyc', '.pyo', '.log'): continue
             if path.is_symlink(): raise ValueError('Symlink in release input: '+str(rel))
-            if not tests and any(part in ('tests', 'fixtures', 'tools') for part in rel.parts): continue
+            if not tests and any(part in ('tests', 'fixtures') for part in rel.parts): continue
+            if not tests and rel.parts[:2] == ('HRS_Bridge', 'tools'): continue
             if rel.as_posix() == 'HRS_Bridge/fixtures/hrs_sample.html': continue
             result[rel.as_posix()] = path.read_bytes()
     # The git checkout pins a submodule; downloadable ZIPs include the runnable
