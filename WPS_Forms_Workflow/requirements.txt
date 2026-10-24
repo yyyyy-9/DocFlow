@@ -1,0 +1,4 @@
+# Core implementation only. Python 3.10 or later.
+# Core/forms need only lxml. Optional --pages wps needs Windows WPS + pywin32.
+# python-docx/Pillow are test fixture dependencies, not runtime requirements.
+lxml==6.1.3

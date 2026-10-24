@@ -1,0 +1,11 @@
+__pycache__/
+*.py[cod]
+.venv/
+.work/
+.build/
+dist/
+node_modules/
+WPS_Forms_UI/data/
+outputs/
+*.log
+HRS_Bridge/fixtures/hrs_sample.html

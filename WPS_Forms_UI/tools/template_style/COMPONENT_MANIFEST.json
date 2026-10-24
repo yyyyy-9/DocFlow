@@ -1,0 +1,114 @@
+{
+  "schema": "wps-ui-template-component-v1",
+  "tool_version": "1.0.3",
+  "upstream_archive": "WPS_Template_Style_Tool_1.0.3_Public_Win64.zip",
+  "upstream_sha256": "db37c27fcc6ce1c7748f05e721e5f2bebff71981c992e4a2177921bd8afc95d4",
+  "upstream_manifest_verified_entries": 54,
+  "source": "https://github.com/yyyyy-9/HRS/tree/v1.1.1/template-tool",
+  "scope": "Unmodified source dependency closure, original templates and attribution; excludes EXE, tests, builders, environments and unrelated pipeline modules",
+  "python_modules": 10,
+  "files": [
+    {
+      "path": "COPYRIGHT",
+      "bytes": 778,
+      "sha256": "059aec06f0816d2af953f3b4ceea560b5aa83e1c713024d2de17b7710c2dcc41",
+      "upstream_path": "COPYRIGHT"
+    },
+    {
+      "path": "LICENSE",
+      "bytes": 35821,
+      "sha256": "0b383d5a63da644f628d99c33976ea6487ed89aaa59f0b3257992deac1171e6b",
+      "upstream_path": "source/LICENSE"
+    },
+    {
+      "path": "README.md",
+      "bytes": 1865,
+      "sha256": "d45c43d8fa5ea7b88a15023e2e041b1b7399b44ad76ce1da48c51a057548e491",
+      "upstream_path": "source/README.md"
+    },
+    {
+      "path": "SOURCE.txt",
+      "bytes": 159,
+      "sha256": "86edeaf7f49b03a047b6e0742d715c6d76a04737aced1ce415ca8daed8797bff",
+      "upstream_path": "SOURCE.txt"
+    },
+    {
+      "path": "config.json",
+      "bytes": 807,
+      "sha256": "4bcfa9fc9bdadf060c4370be04f8d31efd58bccd9665e1f8534cb2e1969026d8",
+      "upstream_path": "source/config.json"
+    },
+    {
+      "path": "src/wps_pipeline/__init__.py",
+      "bytes": 360,
+      "sha256": "2cf6e8a1861f3669cb0d996c66ed804fc742de40f7b14435163024e0d2a1cf36",
+      "upstream_path": "source/src/wps_pipeline/__init__.py"
+    },
+    {
+      "path": "src/wps_pipeline/assemble_reports.py",
+      "bytes": 47225,
+      "sha256": "2933957fdbc9a6c719f12eecbcbc58dae58616ba5edc2e9bc45dbb320aaec408",
+      "upstream_path": "source/src/wps_pipeline/assemble_reports.py"
+    },
+    {
+      "path": "src/wps_pipeline/docx_formatting.py",
+      "bytes": 10289,
+      "sha256": "df39aa35fc4bbd1849d1806d7ea40cf706f86a663987789c96811bb0694b1c77",
+      "upstream_path": "source/src/wps_pipeline/docx_formatting.py"
+    },
+    {
+      "path": "src/wps_pipeline/native_output.py",
+      "bytes": 7181,
+      "sha256": "b2b9cd508410e90374f66b187d3571a15e597b43c42bf17da4d07801099b7db7",
+      "upstream_path": "source/src/wps_pipeline/native_output.py"
+    },
+    {
+      "path": "src/wps_pipeline/numbered_candidates.py",
+      "bytes": 29524,
+      "sha256": "096fdf72df4dd3f4693efc0ff7ef29baa3a90572579e0f38b14d254c2a3639cf",
+      "upstream_path": "source/src/wps_pipeline/numbered_candidates.py"
+    },
+    {
+      "path": "src/wps_pipeline/numbering_facts.py",
+      "bytes": 5334,
+      "sha256": "667802c3c16934bbfaf776559e9e5f9dc0d000f2fe599b25533732562f5b1ecd",
+      "upstream_path": "source/src/wps_pipeline/numbering_facts.py"
+    },
+    {
+      "path": "src/wps_pipeline/resolve_styles.py",
+      "bytes": 6749,
+      "sha256": "a2636c3c80801d8103a4d911daf7298bb3c1c91c7f8a0073f8f3ae0e116a3ca4",
+      "upstream_path": "source/src/wps_pipeline/resolve_styles.py"
+    },
+    {
+      "path": "src/wps_pipeline/template_prepare.py",
+      "bytes": 20732,
+      "sha256": "a071c4207c7b29dadb1f44fd1d7ea5783913dbf88083a26bf649fe3ac5392352",
+      "upstream_path": "source/src/wps_pipeline/template_prepare.py"
+    },
+    {
+      "path": "src/wps_pipeline/template_runtime.py",
+      "bytes": 13967,
+      "sha256": "28cdec8e144dd513b942dbab443ef7ec6915d5211e705e71f979e040fd8f92a1",
+      "upstream_path": "source/src/wps_pipeline/template_runtime.py"
+    },
+    {
+      "path": "template_tool.py",
+      "bytes": 16104,
+      "sha256": "8b6036f5b2a345738ea308e2030a8480dd48038a5b847be638e638cfff1206ab",
+      "upstream_path": "source/template_tool.py"
+    },
+    {
+      "path": "templates/cover_template_v0311.docx",
+      "bytes": 37695,
+      "sha256": "173237bfaeda6ba688f9a6ddc51225d54722e136a7ab6c88fb7398dba4b9ee82",
+      "upstream_path": "source/templates/cover_template_v0311.docx"
+    },
+    {
+      "path": "templates/target_template.docx",
+      "bytes": 37170,
+      "sha256": "3cce5674cbef3a1350366b5eea4f8ae6dad0c9267bb5a982b501ff0314c4b38f",
+      "upstream_path": "source/templates/target_template.docx"
+    }
+  ]
+}

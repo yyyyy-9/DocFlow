@@ -1,0 +1,11 @@
+{
+  "build_id": "20261024.docflow-public-r1",
+  "forms_version": "0.1.6",
+  "protocol": "0.5.7",
+  "template": "0.3.11 + prepared H7-H9",
+  "baseline_zip_sha256": "466f077289be9e7bfdd6266784719696244ccb3c0ced157f53bd824692491ee7",
+  "program_model_api_calls": 0,
+  "scope": "Independent recursive/forms workflow; does not replace Bridge/HRS packages",
+  "contents": "Implementation, two templates, fixed input form, identity diagnostics and explicit run cleanup. No tests, runs, credentials or environments in Clean.",
+  "previous_forms_version": "0.1.5"
+}

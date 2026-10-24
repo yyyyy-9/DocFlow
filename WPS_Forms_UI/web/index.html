@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>WPS 文档整理</title><link rel="icon" href="data:,"><link rel="stylesheet" href="/style.css"></head>
+<body>
+<header><div><strong>WPS 文档整理</strong><span class="muted">Word → Word · 本地界面</span></div><div class="actions"><select id="writer" aria-label="本批填写者"><option value="user">人工填写</option><option value="model">Agent代填</option></select><button id="history">历次稿件</button><button id="reload">重新载入</button><button id="quit">退出服务</button></div></header>
+<section class="summary"><div><small>当前任务</small><strong id="task-title">新建整理任务</strong></div><div><small>当前总稿状态</small><strong id="stage">等待启动</strong></div><div><small>最近可用总稿</small><button id="open-master" disabled>尚未生成</button></div></section>
+<section class="workflow-bar" aria-label="本批工作状态"><div><small>本批工作</small><strong id="batch-state">从 01 接入文件夹开始</strong></div><button id="next-step" class="primary" hidden>下一步</button></section>
+<div class="notice" id="notice" role="status" aria-live="polite" hidden></div>
+<div class="layout"><main>
+<nav class="tabs" aria-label="整理阶段"><button data-tab="01" class="active"><span>新建整理 · 01</span><small id="step-state-01">从这里开始</small></button><button data-tab="02"><span>分类与顺序 · 02</span><small id="step-state-02">等待首稿</small></button><button data-tab="03"><span>反馈与修订 · 03</span><small id="step-state-03">等待首稿</small></button><button data-tab="04" id="final-tab" disabled><span>完成与交付 · 04</span><small id="step-state-04">待最终确认</small></button><button id="toggle-log" class="quiet" aria-controls="logs" aria-expanded="true">收起日志</button></nav>
+<section id="tab-01" class="page">
+<h1>接入文件夹，立即生成首稿</h1><p class="muted">递归接入 DOCX / DOC。先交总稿，再调整分类与局部问题。所有文档操作使用启动时选择的 Python。</p>
+<label for="root">接入根目录 <span class="required">必填</span></label><div class="path"><input id="root" required aria-describedby="root-error" placeholder="例如 D:\月报\十月"><button data-choose="root" data-kind="directory">选择文件夹…</button></div><p id="root-error" class="field-error" hidden></p>
+<div class="two"><div><label for="title">总稿名称</label><input id="title" value="工程报告汇总"></div><div><label for="out">首稿任务目录</label><input id="out" aria-describedby="out-hint" placeholder="留空自动创建新目录"><small id="out-hint" class="hint">手动填写时必须使用全新目录，不会覆盖已有稿件。</small></div></div>
+<label for="template">目标模板</label><div class="path"><input id="template" placeholder="留空使用包内母模板"><button data-choose="template" data-kind="docx">选择模板…</button><button id="template-tool" disabled>模板样式工具…</button></div><p id="template-tool-status" class="hint" role="status">可在独立弹窗中保留封面、目录和页眉，选择正文起点生成新模板；生成后在上方选择该文件。</p>
+<div class="checks"><label><input id="pages" type="checkbox"> 启用 WPS 物理首页检查</label><label><input id="doc-conversion" type="checkbox" checked> 遇 DOC 由 WPS 转为 DOCX</label></div>
+<button class="primary" id="start">开始整理并生成首稿</button>
+<hr><h2>继续已有任务</h2><label for="resume">已有任务目录</label><div class="path"><input id="resume" placeholder="选择包含 forms_state.json 的任务目录"><button data-choose="resume" data-kind="directory">选择任务…</button><button id="attach">继续此任务</button></div>
+<details><summary>本机运行环境</summary><pre id="environment"></pre></details>
+</section>
+<section id="tab-02" class="page" hidden>
+<div class="section-head"><div><h1>分类、顺序与展示题名</h1><p class="muted">修改目标组织，原文件不移动。每次提交生成一份新的分类总稿。</p></div><div class="actions"><button data-open-form="02">打开 Excel</button><button data-import="02">导入副本…</button><button data-export="02">导出副本</button></div></div>
+<div class="form-status" id="status-02"></div><div class="table-wrap" tabindex="0" aria-label="分类与顺序表，可横向滚动"><table id="classification"><thead><tr><th scope="col">来源 / 内容单元</th><th scope="col">处理决定</th><th scope="col">目标归类（/ 分层）</th><th scope="col">同级顺序</th><th scope="col">展示题名</th><th scope="col">备注</th></tr></thead><tbody></tbody></table></div>
+<div class="footer-actions"><button data-sync="02">同步界面与 Excel</button><button class="primary" id="classify">提交分类并生成新稿</button><button data-reset="02" class="quiet">撤销本页未提交修改</button></div>
+</section>
+<section id="tab-03" class="page" hidden>
+<div class="section-head"><div><h1>本批局部反馈</h1><p class="muted">先核对两端来源，再集中提交；一次提交，一份累积新稿。</p></div><div class="actions"><button data-open-form="03">打开 Excel</button><button data-import="03">导入副本…</button><button data-export="03">导出副本</button></div></div>
+<div class="form-status" id="status-03"></div>
+<div class="review-nav" id="review-nav"><button id="previous">上一处</button><select id="issue-select" aria-label="待核事项"></select><button id="next">下一处</button><button id="add-issue">新增意见</button></div>
+<div id="empty-review" class="empty-state" hidden><strong>当前没有待核事项</strong><p>可以新增一条局部意见；如果总稿已经符合要求，也可以直接确认完成。</p><button id="empty-add-issue" class="primary">新增第一条意见</button></div>
+<article id="issue-panel">
+<div class="origin"><div class="issue-heading"><strong id="issue-title"></strong><span id="location-status" class="status-chip">正在核对位置</span></div><div id="issue-message"></div><dl><dt>来源文件</dt><dd id="source-file">等待定位</dd><dt>来源章节</dt><dd id="source-chapter"></dd><dt>总稿位置</dt><dd id="target-chapter"></dd></dl><details><summary>技术定位与版本绑定</summary><pre id="technical"></pre></details></div>
+<div class="compare-head"><strong>原稿与当前总稿</strong><div class="actions"><button id="open-both">同时打开并定位两份 Word</button><button id="plain-both" class="quiet">仅打开</button></div></div>
+<div class="compare"><section><div class="section-head"><h2>原稿 · 冻结只读副本</h2><button id="open-source">打开并定位原稿</button></div><div id="source-snippet" class="snippet"></div></section><section><div class="section-head"><h2 id="target-caption">当前总稿</h2><button id="open-target">打开并定位总稿</button></div><div id="target-snippet" class="snippet"></div></section></div>
+<p class="hint">这里显示原文及前后文。点击打开后，在 WPS 中查看实际版式；副本含临时定位书签，不改原稿和已交总稿。</p>
+<div id="new-locator" class="two" hidden><div><label for="new-document">文档与定位</label><input id="new-document" placeholder="master | S0001:b000003"></div><div><label for="new-quote">可唯一定位的原文片段</label><input id="new-quote"></div><button id="locate-new">同步并定位新增意见</button></div>
+<div class="edit-grid"><div><label for="edit-type">修改类型</label><select id="edit-type"></select></div><div><label for="edit-value">填写值</label><input id="edit-value" list="value-options"><datalist id="value-options"></datalist></div><div><label for="edit-decision">本条决定</label><select id="edit-decision"><option>暂缓</option><option>提交修改</option><option>保留原样</option></select></div><div><label for="edit-scope">作用范围</label><select id="edit-scope"><option>仅此处</option><option>本单元</option><option>全文</option></select></div></div>
+<p id="value-help" class="hint"></p><label for="edit-problem">补充说明</label><textarea id="edit-problem" rows="2"></textarea>
+</article>
+<div class="footer-actions"><button data-sync="03">同步界面与 Excel</button><button id="feedback" class="primary" disabled>提交本批反馈并生成新稿</button><button data-reset="03" class="quiet">撤销本页未提交修改</button></div>
+<div class="final-box"><h2>完成这一轮整理</h2><p class="muted" id="finalize-hint">已填写的决定需先生成新稿；没有修改时可直接确认当前稿。</p><p class="hint">保留的疑点不会自动成为训练标签。</p><label id="accept-pending-wrap" hidden><input type="checkbox" id="accept-pending"> 我接受当前仍保留的待核事项</label><button id="finalize" disabled>确认当前稿为最终版本</button></div>
+</section>
+<section id="tab-04" class="page" hidden><h1>完成与交付</h1><p>终稿确认绑定当前总稿和决定版本。待提交修改先处理；生成的新稿需要重新确认。</p><pre id="final-summary"></pre><div class="delivery-actions"><button id="delivery-open" class="primary" disabled>打开最终总稿</button></div><details class="training-panel"><summary>可选：保存本轮修正数据为训练集</summary><p class="muted">只把明确且已检查的修正独立保存；自动项、保留项与历史记录另存。原件按哈希去重，所有数据留在本机。本功能不会训练模型。</p><button id="training" disabled>保存本轮修正数据</button><pre id="training-result"></pre></details><details><summary>终稿绑定与版本详情</summary><pre id="final-info"></pre></details></section>
+</main><aside id="logs"><div class="section-head"><h2>运行日志</h2><button id="stop" disabled>请求停止</button></div><div class="actions"><select id="log-filter" aria-label="运行日志类型"><option value="all">全部输出</option><option value="stage" selected>阶段与交付</option><option value="error">错误</option></select><label><input id="follow" type="checkbox" checked> 跟随新输出</label></div><pre id="log-output" role="log" aria-live="off"></pre><small id="log-count"></small></aside></div>
+<dialog id="history-dialog"><div class="section-head"><h2>历次稿件</h2><button id="close-history">关闭</button></div><p class="muted">选择一轮继续核查。旧总稿保留；后续提交仍生成新目录。</p><div id="history-list"></div></dialog>
+<dialog id="conflict-dialog"><h2>界面与 Excel 存在同字段修改</h2><p>请选择各字段的保留值；未选择时不覆盖共享表单。</p><div id="conflict-list"></div><div class="footer-actions"><button id="cancel-conflict">暂不合并</button><button id="resolve-conflict" class="primary">按选择合并</button></div></dialog>
+<script src="/app.js"></script></body></html>

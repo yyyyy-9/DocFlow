@@ -1,0 +1,3 @@
+Source: https://github.com/yyyyy-9/HRS/tree/v1.1.1/template-tool
+Version: 1.0.3. Licence: GPL-3.0-or-later.
+Third-party licences are retained under licenses/.

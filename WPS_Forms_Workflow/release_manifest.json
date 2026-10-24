@@ -1,0 +1,292 @@
+{
+  "version": "0.5.7",
+  "forms_version": "0.1.6",
+  "build_id": "20261024.docflow-public-r1",
+  "files": [
+    {
+      "path": "AGENTS.md",
+      "bytes": 5280,
+      "sha256": "fa81c0ad03d05a941b785351963cb9031ca4922bea9cd61366e48cf5c3fb7e86"
+    },
+    {
+      "path": "BUILD_INFO.json",
+      "bytes": 557,
+      "sha256": "62bb5a016ca4f7668ef9f43eadd437f492b4413f2a4046d69954581461385c51"
+    },
+    {
+      "path": "PIPELINE.md",
+      "bytes": 7934,
+      "sha256": "98bb15e011195627032c1d4d5ef74032c6010822823e6b6c61a6946cac33a566"
+    },
+    {
+      "path": "README.md",
+      "bytes": 24872,
+      "sha256": "8927a727aa1c458e3633062e389a16e47b49848b87216a02846889d9d0b816cd"
+    },
+    {
+      "path": "TEMPLATE_REQUIREMENTS.md",
+      "bytes": 19041,
+      "sha256": "454afd6a8fe88a0aeb75567a1368903b93f9a55a473df1ae93589374ec8c4e3e"
+    },
+    {
+      "path": "batch_tool.py",
+      "bytes": 19084,
+      "sha256": "3ed863598bf3f02d5928e5c67589a29f8bc5875668492f5f4ef7c93498349857"
+    },
+    {
+      "path": "cleanup_tool.py",
+      "bytes": 1585,
+      "sha256": "52a91d82c5cc5d61e316f9a4d5a3006c40b91113e36da689e532b484def6577a"
+    },
+    {
+      "path": "config.json",
+      "bytes": 768,
+      "sha256": "c6976cc1a5cb4efa366f256fa4ca9b972b52533a3126812847ea254716c76405"
+    },
+    {
+      "path": "docs/MAINTENANCE.md",
+      "bytes": 3234,
+      "sha256": "6b0a26ae4765eb7b421be5b24cd06284f0aa41b68cc6e8ab813c3e61e765b9e4"
+    },
+    {
+      "path": "docs/PROTOCOL.md",
+      "bytes": 32659,
+      "sha256": "d80882a15b6dead56d9178396918cb8d914e375ddb69b60639d29641a580f518"
+    },
+    {
+      "path": "forms/01_输入.xlsx",
+      "bytes": 3745,
+      "sha256": "12aad4145da098222b548c820f39367bbe711a72f728b708ccc5e24a2c3b4282"
+    },
+    {
+      "path": "forms_tool.py",
+      "bytes": 4431,
+      "sha256": "dc476defb0f2cb176577ba3a3fe53bc95dbd45172a49141085657a9266f54dc9"
+    },
+    {
+      "path": "report_tool.py",
+      "bytes": 13391,
+      "sha256": "af70a8a7254d2834eb01750432a530d383296a985de390f454e4fee48586c979"
+    },
+    {
+      "path": "requirements.txt",
+      "bytes": 219,
+      "sha256": "1d5dcafc646c51b1715564b686759822032a46a85ba876e6645ab198953ef30f"
+    },
+    {
+      "path": "run.cmd",
+      "bytes": 274,
+      "sha256": "0f84cc5b7c19ef86f591162d2a3c19c571accff48bc6ac7724b27659c31f9695"
+    },
+    {
+      "path": "runtime_manifest.json",
+      "bytes": 1675,
+      "sha256": "e6cb8972253b7044b57f308a218ff84c385ceccf065e19a9e1de42c492d3354e"
+    },
+    {
+      "path": "src/wps_pipeline/__init__.py",
+      "bytes": 349,
+      "sha256": "a16a202430f0941b2a87bdc47aebc5acc2654a9c55eafecaae6d583d7a0931bc"
+    },
+    {
+      "path": "src/wps_pipeline/assemble_reports.py",
+      "bytes": 71434,
+      "sha256": "3cde3ea5783421c292cb9d0cdeb7fc0daa3b1ccad06f753dd63aab36fa755d6f"
+    },
+    {
+      "path": "src/wps_pipeline/docx_formatting.py",
+      "bytes": 12270,
+      "sha256": "e035fc9c0fe25ca23f9da08a4d59f6670eaa2e862ba2a9b3f10de7c0468037c9"
+    },
+    {
+      "path": "src/wps_pipeline/feedback.py",
+      "bytes": 10544,
+      "sha256": "c2d985988a7546363ef09ac06fa138b6277f3ec540e365d68158e3d7c521ace7"
+    },
+    {
+      "path": "src/wps_pipeline/figure_layout.py",
+      "bytes": 16389,
+      "sha256": "c3d2a8ba9c615775f3b23784e10c551020f3a00b5cf370d1b766f390069ca7e5"
+    },
+    {
+      "path": "src/wps_pipeline/form_pages.py",
+      "bytes": 8378,
+      "sha256": "670ffef66c23a11c294a619e6de71495c3518b585c9be4b07668c67eb6d7d7c3"
+    },
+    {
+      "path": "src/wps_pipeline/form_xlsx.py",
+      "bytes": 9130,
+      "sha256": "a029f8c36c13ce2227a73d611cd6a4bb4f6f04fb9346f8c0b34337c26e497756"
+    },
+    {
+      "path": "src/wps_pipeline/forms_organization.py",
+      "bytes": 6651,
+      "sha256": "8c10a2211eeb27b5a4ad791b8ed9f1a0bbb12f718a00a386789819d5e53a7fe9"
+    },
+    {
+      "path": "src/wps_pipeline/forms_workflow.py",
+      "bytes": 50082,
+      "sha256": "d2bf92b2d9ba81882407ca1567743a4d39a6feeeba3b0bfabd187fd12ee5b3dd"
+    },
+    {
+      "path": "src/wps_pipeline/job_support.py",
+      "bytes": 6946,
+      "sha256": "58daae105b2b40ddc4d78f4daf8f4560df132f4d86fb50ae7a365b961d2db1e4"
+    },
+    {
+      "path": "src/wps_pipeline/maintenance.py",
+      "bytes": 22191,
+      "sha256": "0a75f6172139800f1e11151f1b6f0bf9e692be484508fb2bfcd861b2c7bbda87"
+    },
+    {
+      "path": "src/wps_pipeline/make_review_packets.py",
+      "bytes": 4476,
+      "sha256": "da0e82884454dc9f1b6ca491a6907031ca328596b570ca87a946566b35f006f6"
+    },
+    {
+      "path": "src/wps_pipeline/math_scope_check.py",
+      "bytes": 4829,
+      "sha256": "f20b2df5a029ce860200a2e1c95226161d12b4acdb4ee8b223a45c1035f1180c"
+    },
+    {
+      "path": "src/wps_pipeline/model_review.py",
+      "bytes": 11624,
+      "sha256": "ca5946776dcd15916436cc89c1a9fc01194a202cf5b17bf5b3acf7dd07312026"
+    },
+    {
+      "path": "src/wps_pipeline/native_math_text.py",
+      "bytes": 12730,
+      "sha256": "8e66b6b416abf141f5503aeb106445388b9e3bb7466adc4442b26ddfb37354a8"
+    },
+    {
+      "path": "src/wps_pipeline/native_output.py",
+      "bytes": 9835,
+      "sha256": "b337b0603205f276c18c4881f362008febb27c5c22ed2b9ef8e57f137523172e"
+    },
+    {
+      "path": "src/wps_pipeline/numbered_candidates.py",
+      "bytes": 32352,
+      "sha256": "d9789d0969b754fa865b5f02587502f04a42da528a2ec272c036c5362e060db4"
+    },
+    {
+      "path": "src/wps_pipeline/numbering_facts.py",
+      "bytes": 5421,
+      "sha256": "7be76c29ed827349615abee2a6956300e68204a5b1bab8427d988a7d18257a62"
+    },
+    {
+      "path": "src/wps_pipeline/object_transport.py",
+      "bytes": 3429,
+      "sha256": "8c432f28605748aab8574066f7e69e68071a0e4c858c55f243ffbcc4f50a26b9"
+    },
+    {
+      "path": "src/wps_pipeline/recognize_reports.py",
+      "bytes": 17310,
+      "sha256": "e9e966b75d1adf7c36d2c4939af417d7251e3592d08611a90194a20f25ddd3d6"
+    },
+    {
+      "path": "src/wps_pipeline/recognize_structure.py",
+      "bytes": 8154,
+      "sha256": "f0e94eead04febb2f6b63b49c6d54e5629df32298b5b045ea5a454553b2c1c72"
+    },
+    {
+      "path": "src/wps_pipeline/resolve_styles.py",
+      "bytes": 7176,
+      "sha256": "df154667b3410f8e82f0780c4371cfcbf657e86deb167ea7a4015bbc91868190"
+    },
+    {
+      "path": "src/wps_pipeline/scan_docx.py",
+      "bytes": 19037,
+      "sha256": "bd37e26f183aa3a1912aefe6a293fbfb7d9c0b9ffe3c48f9dee0bfad1a288e3e"
+    },
+    {
+      "path": "src/wps_pipeline/source_inventory.py",
+      "bytes": 7186,
+      "sha256": "9c03f59e6eb1aeb0dbf0b61dc1ff40f1c1dbe2451a285e751ab8a65267892e9d"
+    },
+    {
+      "path": "src/wps_pipeline/template_prepare.py",
+      "bytes": 20768,
+      "sha256": "9a1167c16b8cb14242c64d2542a1766a184325dc064d6fed064a5788cca389ae"
+    },
+    {
+      "path": "src/wps_pipeline/verify_forms.py",
+      "bytes": 5292,
+      "sha256": "ddc62a9dd06cccc1f92d86d4ca5884265ee80cfe0eada0bccc0b2175160a5c87"
+    },
+    {
+      "path": "src/wps_pipeline/verify_native_math.py",
+      "bytes": 13305,
+      "sha256": "dcb82af18ea9c74123135fe037297fa9dfd478da26631b7c7c351bc9f46521b8"
+    },
+    {
+      "path": "src/wps_pipeline/verify_native_numbering.py",
+      "bytes": 12313,
+      "sha256": "3ddb056c7ad1e13296120c87fe7408dbcb1704bff167a6e1f3adcc87ea089295"
+    },
+    {
+      "path": "src/wps_pipeline/verify_number_edits.py",
+      "bytes": 4786,
+      "sha256": "f107141b9db81bcb2a6513f27deb682f0bb38b632830f22adb7e82d2dbfa0eff"
+    },
+    {
+      "path": "src/wps_pipeline/verify_number_facts.py",
+      "bytes": 6200,
+      "sha256": "358afe27a52edd05694cfcaffed6b634372a2427a8ffead9725ab77e89b0c525"
+    },
+    {
+      "path": "src/wps_pipeline/verify_report_build.py",
+      "bytes": 88861,
+      "sha256": "90b7df778fd82ad559a2be4ffafc37d4360a7d683cd1018bb95328222401a646"
+    },
+    {
+      "path": "src/wps_pipeline/verify_scan_fidelity.py",
+      "bytes": 10330,
+      "sha256": "494ab359e2d9b330fbcdda753c52f0f801cd097cc19ef6385b6c6611d706a098"
+    },
+    {
+      "path": "src/wps_pipeline/workflow.py",
+      "bytes": 40827,
+      "sha256": "b180a795a2cff8fd5cdfbb5a52f05fccc30844f9faff3ed987a1f20fa978cee4"
+    },
+    {
+      "path": "template_tool.py",
+      "bytes": 16104,
+      "sha256": "8b6036f5b2a345738ea308e2030a8480dd48038a5b847be638e638cfff1206ab"
+    },
+    {
+      "path": "templates/cover_template_v0311.docx",
+      "bytes": 37695,
+      "sha256": "173237bfaeda6ba688f9a6ddc51225d54722e136a7ab6c88fb7398dba4b9ee82"
+    },
+    {
+      "path": "templates/target_template.docx",
+      "bytes": 37170,
+      "sha256": "3cce5674cbef3a1350366b5eea4f8ae6dad0c9267bb5a982b501ff0314c4b38f"
+    },
+    {
+      "path": "tools/build_template_tool.py",
+      "bytes": 7178,
+      "sha256": "fa929cd92037b36677e6bdf6b52803822b70753146138cf33cd7bab6dccb3428"
+    },
+    {
+      "path": "tools/dev_entry.py",
+      "bytes": 1988,
+      "sha256": "826114b561b5535bdbcb5757754b946999edf97db8a230e24d52ede04fed54fa"
+    },
+    {
+      "path": "tools/licenses/Tcl_8.6.15_license.terms",
+      "bytes": 2255,
+      "sha256": "c0a69a2bfd757361ec7e6143973b103c90409316b49e9c88db26ad6388e79f16"
+    },
+    {
+      "path": "一键清理中间产物.cmd",
+      "bytes": 533,
+      "sha256": "6f4f1ea36caf8af4047892a8886838df1666944b9169100feb5574585ce36d4c"
+    },
+    {
+      "path": "操作手册.md",
+      "bytes": 22902,
+      "sha256": "763ec9bb5a54bca8673aec7a6902e9c74b470d03cab2b957cafb00a94098f299"
+    }
+  ]
+}

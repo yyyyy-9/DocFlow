@@ -1,0 +1,6 @@
+* text=auto eol=lf
+*.docx -text
+*.xlsx -text
+*.png -text
+*.emf -text
+WPS_Forms_UI/tools/template_style/** -text whitespace=cr-at-eol

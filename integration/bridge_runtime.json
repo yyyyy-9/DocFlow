@@ -1,0 +1,8 @@
+{
+  "schema": "hrs-bridge-runtime-v1",
+  "projects": {
+    "HTML_Report_Studio": "HTML_Report_Studio",
+    "WPS_Document_Tool": "WPS_Forms_Workflow",
+    "WPS_Forms_Workflow": "WPS_Forms_Workflow"
+  }
+}

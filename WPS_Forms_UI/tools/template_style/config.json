@@ -1,0 +1,36 @@
+{
+  "version": "0.5.7",
+  "template": "templates/target_template.docx",
+  "template_version": "0.3.11",
+  "max_review_rounds": 2,
+  "model_review": "local_tool_agent",
+  "wps": "NOT_RUN",
+  "visual": "NOT_REQUESTED",
+  "template_contract": {
+    "body_slot_texts": [
+      "综合试验报告",
+      "在此放入确认后的正文。"
+    ],
+    "required_styles": [
+      "Title",
+      "Normal",
+      "Heading 1",
+      "Heading 2",
+      "Heading 3",
+      "Heading 4",
+      "Heading 5",
+      "Heading 6",
+      "List Paragraph",
+      "图题",
+      "表题",
+      "公式",
+      "表内正文",
+      "图形段",
+      "参考条目",
+      "项目表格",
+      "HRS Code",
+      "HRS Abstract"
+    ]
+  },
+  "release_status": "NATIVE_FIGURE_LAYOUT_DEV2"
+}

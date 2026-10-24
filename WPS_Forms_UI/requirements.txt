@@ -1,0 +1,3 @@
+lxml==6.1.3
+# Optional for native WPS positioning, DOC conversion and physical page reads.
+pywin32==312; sys_platform == "win32"
