@@ -1,6 +1,6 @@
 {
   "schema": "docflow-release-v1",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "repository": "yyyyy-9/DocFlow",
   "license": "GPL-3.0-or-later",
   "hrs_commit": "0ce60d9def82c37d1a8738c34c478aff8e861276",

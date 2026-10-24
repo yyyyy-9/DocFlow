@@ -2,6 +2,7 @@
 from pathlib import Path
 from zipfile import ZipFile
 import argparse,ast,json,re
+from xml.etree import ElementTree as ET
 ROOT=Path(__file__).resolve().parents[1]
 EXCLUDED={'.git','.work','.build','dist','node_modules','__pycache__','data','outputs'}
 TEXT={'.py','.pyw','.md','.txt','.json','.js','.cjs','.css','.html','.yml','.yaml','.toml'}
@@ -36,7 +37,11 @@ def check():
                 for name in archive.namelist():
                     if not name.endswith('.xml'):continue
                     text=archive.read(name).decode('utf8',errors='replace')
-                    if re.search('公司|内网|内部机|溢 杨',text):errors.append(rel+': document context '+name)
+                    if name=='docProps/core.xml':
+                        for node in ET.fromstring(text):
+                            if node.tag.rsplit('}',1)[-1] in {'creator','lastModifiedBy'} and (node.text or '') not in {'','yyyyy-9','cangnai','DocFlow'}:
+                                errors.append(rel+': unexpected document author metadata')
+                    if re.search('公司|内网|内部机',text):errors.append(rel+': document context '+name)
                     if re.search(r'[A-Za-z]:[/\\]+Users[/\\]+[^/\\\s]+',text,re.I):errors.append(rel+': document path '+name)
     if len(org)!=2:errors.append('Expected exactly two approved organization-term recognition rules')
     if errors:raise ValueError('\n'.join(errors))

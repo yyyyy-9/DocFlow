@@ -1,6 +1,6 @@
 {
   "schema": "docflow-components-v1",
-  "suite": "0.1.0",
+  "suite": "0.1.1",
   "bridge": {
     "version": "0.4.2"
   },
