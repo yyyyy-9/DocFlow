@@ -37,7 +37,7 @@ Release ZIP已经包含所需HRS app源文件，无需Git子模块下载；先�
 | --- | --- | --- |
 | UI 0.1.2 | 新建、分类、反馈、查看两端上下文与终稿确认 | 普通浏览器；图形选择器需要Tk |
 | Forms 0.1.6 | 一份共享的Word扫描/识别/装配/验证内核 | lxml |
-| Bridge 0.4.2 | 原生Word任务、三表托管、HRS/Markdown/HTML桥接 | 基本依赖已在requirements.txt |
+| Bridge 0.4.3 | 原生Word任务、三表托管、HRS/Markdown/HTML桥接及原生超链接导入 | 基本依赖已在requirements.txt |
 | 模板工具1.0.3 | 把报告样式应用到带封面/目录/页眉的模板副本 | UI中单独窗口；Tk |
 | HRS2.0.0 | 复用现有Markdown/对象/HTML核心 | 固定公开子模块，不另维护一份解析器 |
 

@@ -1,8 +1,8 @@
 {
   "schema": "docflow-components-v1",
-  "suite": "0.1.1",
+  "suite": "0.1.2",
   "bridge": {
-    "version": "0.4.2"
+    "version": "0.4.3"
   },
   "ui": {
     "version": "0.1.2",
@@ -11,7 +11,7 @@
   "forms": {
     "version": "0.1.6",
     "protocol": "0.5.7",
-    "build": "20261024.docflow-public-r1"
+    "build": "20261026.hyperlink-facts-r1"
   },
   "template_tool": {
     "version": "1.0.3"

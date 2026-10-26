@@ -269,7 +269,11 @@ class Writer:
             elif kind == 'link':
                 from docx.opc.constants import RELATIONSHIP_TYPE as RT
                 hyperlink = element('w:hyperlink')
-                hyperlink.set(qn('r:id'), p.part.relate_to(t['href'], RT.HYPERLINK, is_external=True))
+                if t['href'].startswith('#object-'):
+                    key=t['href'][8:]
+                    if key not in self.identities:raise BridgeError('INTERNAL_LINK_TARGET_MISSING: '+key)
+                    hyperlink.set(qn('w:anchor'),self.number_name(key));hyperlink.set(qn('w:history'),'1')
+                else:hyperlink.set(qn('r:id'), p.part.relate_to(t['href'], RT.HYPERLINK, is_external=True))
                 start = len(p._p)
                 self.inline(p, t.get('tokens', [{'type': 'text', 'text': t['text']}]), bold, italic, strike, pre_wrap)
                 for node in list(p._p)[start:]:

@@ -1,12 +1,12 @@
-# HRS ↔ WPS Bridge 0.4.2
+# HRS ↔ WPS Bridge 0.4.3
 
 独立的本地编排与转换工具。HRS 2.0 提供 Markdown/对象/页面模型；原三表 0.1.6 提供 Word 扫描、识别、局部复核、模板装配和独立检查。Bridge 调用这些现有入口，不另建识别器或模型 API 客户端。
 
 ## 本次版本与依赖
 
 - Bridge 唯一身份源为 `hrs_bridge/__init__.py`；`package.json`与根目录COMPONENTS.json由`tools/maintain_manifest.py`同步。
-- 包内 HRS App 与已发布 2.0.0 R1 的162份文件完全相同；浏览器模型与 HRS 当前页同字节，吸收公开 Bridge 0.3.0 的 document-v2、公式编号/引用和数学适配。
-- 三表0.1.6 / 内核协议0.5.7只保留一份共享源码。公开构建身份见BUILD_INFO与COMPONENTS；正文处理规则保持，公开文档和通用封面模板随发行提供。`forms_tool`和`report_tool`共用这一份内核。
+- DocFlow源码的HRS子模块仍固定公开2.0.0，不自动升级；独立Bridge0.4.3包明确装入HRS2.0.7 App，实际输入与哈希见SOURCES.json。两者复用同一页面模型，保留document-v2、公式编号/引用和数学适配。
+- 三表0.1.6 / 内核协议0.5.7只保留一份共享源码。公开构建身份见BUILD_INFO与COMPONENTS；本次内核构建仅增加原生链接范围事实与独立核对，原编号事实校验继续执行，正文识别/编号规则保持，公开文档和通用封面模板随发行提供。`forms_tool`和`report_tool`共用这一份内核。
 - UI0.1.2与Bridge共享内核，各自控制任务分支。HRS固定引用公开版本；已有冻结任务继续使用匹配的程序与指纹。
 
 Python 3.12+。Clean 包包含实现和必要说明；DocFlow Full增加当前测试/自造输入、CPython3.12 Win64离线wheel与playwright-core。Python、Node、Chrome、Pandoc、WPS 不重复嵌入。
@@ -26,6 +26,12 @@ Word→Word 三表只需 Python 及其文档依赖；使用原生 WPS 页面读�
 源码运行时，在本目录用 `python -B -m hrs_bridge ...`。以下命令使用DocFlow根目录的`python run.py bridge ...`；独立Bridge组件包使用自己的bridge.py入口。全局根参数写在子命令前：`--hrs-root`、`--wps-root`、`--forms-root`，或设置 HRS_ROOT、WPS_ROOT、WPS_FORMS_ROOT。浏览器/Node/Pandoc 分别用 CHROMIUM_PATH、HRS_BRIDGE_NODE、PANDOC_PATH；外置 Node 模块用 HRS_BRIDGE_NODE_MODULES。
 
 DocFlow共享HTML_Report_Studio与WPS_Forms_Workflow，读取根目录 `integration/bridge_runtime.json`。显式路径优先，不依赖历史版本目录。不能在同一 Python 进程混载两份 HRS/WPS 模块。
+
+## 原生Word超链接导入
+
+原生Word超链接（w:hyperlink）保留显示文字、加粗等强调及可确认目标。HTTP/HTTPS、邮件和绝对file地址沿原链接入口处理；指向已确认章节、图表或其题注的唯一书签映射到HRS稳定身份，预览、HTML和再次导出Word继续可定位。未知/重复书签、危险或相对地址保留文字与原目标记录，标为NEEDS_REVIEW，不激活不可靠链接；不猜新的路径基准。HYPERLINK等复杂域、嵌套链接仍按原受限导入边界处理。
+
+HRS入口及核对窗口标记beta；from-docx命令协议不变。只变更链接目标也会进入原生语义指纹，避免误恢复旧Markdown。新增纯数据链接专项纳入原core/bridge入口，不依赖浏览器；HRS实际页面、HTML与Word往返另列。
 
 ## 新推荐路线：三表连续阶段稿
 

@@ -6,6 +6,7 @@ import json
 from pathlib import Path
 import re
 import tempfile
+from urllib.parse import quote,unquote,urlsplit
 
 from docx import Document
 from docx.oxml.ns import qn
@@ -48,7 +49,13 @@ class NativeReader:
                     if segment['kind']=='layout_marker':
                         nonempty_markers.append({'block_id':block['block_id'],'reason':E.QName(node).localname,'object_id':segment['object_id']})
                 segments.append(segment)
-            if 'segments' in block: block['segments'] = segments
+            if 'segments' in block:
+                original=block['segments']
+                if len(original)!=len(segments) and block.get('hyperlink_ranges'):
+                    kept={id(s) for s in segments};positions=[0]
+                    for s in original:positions.append(positions[-1]+(id(s) in kept))
+                    block['hyperlink_ranges']=[{**r,'start':positions[r['start']],'end':positions[r['end']]} for r in block['hyperlink_ranges']]
+                block['segments'] = segments
         unsupported = []
         for item in self.scan['unsupported']:
             key = (item['block_id'], item['reason'])
@@ -61,6 +68,92 @@ class NativeReader:
         self.top = [self.facts[i] for i in self.scan['top_level_ids'] if self.facts[i]['kind'] != 'boundary']
         self.math = None
         self.identities = identities or {}
+        self.link_targets=dict(self.identities);self.link_heading_ids={};self.link_review={}
+
+    def map_hyperlink_targets(self,recognition,decisions):
+        """Adapt existing confirmed roles/bookmarks, never infer new roles."""
+        roles={r['block_id']:r for r in recognition['roles']}
+        captions={v['block']:target for target,v in recognition['captions'].items()}
+        groups={b:g['blocks'][0] for g in decisions.get('groups',[]) for b in g['blocks']}
+        referenced={x['attributes'].get(qn('w:anchor')) for b in self.scan['blocks'] for x in b.get('hyperlinks',[])}
+        referenced.update(x['attributes'].get(qn('w:docLocation')) for b in self.scan['blocks'] for x in b.get('hyperlinks',[]))
+        for b in self.scan['blocks']:
+            for item in b.get('hyperlinks',[]):
+                value=(item.get('relationship') or {}).get('Target','')
+                if value.startswith('#'):referenced.add(unquote(value[1:]))
+        counts=Counter(s.get('name') for b in self.scan['blocks'] for s in b.get('segments',[]) if s['kind']=='bookmarkStart')
+        targets={}
+        for b in self.top:
+            r=roles[b['block_id']];kind=None
+            if r['status']!='review' and (r['role']=='document_title' or r['role']=='heading' and 1<=r.get('level',0)<=5):kind='sec'
+            elif b['kind']=='table':kind='fig' if r.get('figure_layout') else 'tbl'
+            elif r['role']=='figure' or b['block_id'] in groups:kind='fig'
+            if kind:targets[b['block_id']]=(kind,kind+'-'+self.scan['source_sha256'][:16]+'-'+groups.get(b['block_id'],b['block_id']))
+        for b in self.top:
+            target=targets.get(captions.get(b['block_id'],b['block_id']))
+            if not target:continue
+            for s in b.get('segments',[]):
+                name=s.get('name') if s['kind']=='bookmarkStart' else None
+                if not name or name not in referenced or counts[name]!=1:continue
+                if name in self.link_targets and self.link_targets[name]!=target:raise BridgeError('WORD_BOOKMARK_AMBIGUOUS: '+name)
+                self.link_targets[name]=target
+                if target[0]=='sec':self.link_heading_ids[b['block_id']]=target[1]
+
+    def link_destination(self,record):
+        attrs=record['attributes'];relation=record.get('relationship');anchor=attrs.get(qn('w:anchor')) or attrs.get(qn('w:docLocation'))
+        if attrs.get(qn('w:anchor')) and attrs.get(qn('w:docLocation')) and attrs[qn('w:anchor')]!=attrs[qn('w:docLocation')]:return None
+        target=(relation or {}).get('Target')
+        if not target and anchor:
+            mapped=self.link_targets.get(anchor)
+            return '#object-'+mapped[1] if mapped else None
+        if not isinstance(target,str) or len(target)>8192 or re.search(r'[\x00-\x1f\x7f-\x9f]',target):return None
+        if target.startswith('#') and not anchor:
+            mapped=self.link_targets.get(unquote(target[1:]))
+            if mapped:return '#object-'+mapped[1]
+            if target.startswith('#object-') and target[8:] in {v[1] for v in self.link_targets.values()}:return target
+            return None
+        try:parsed=urlsplit(target)
+        except ValueError:return None
+        if not relation.get('Type','').endswith('/hyperlink') or relation.get('TargetMode')!='External':return None
+        scheme=parsed.scheme.lower()
+        if not ((scheme in ('http','https') and parsed.netloc) or (scheme=='mailto' and parsed.path) or (scheme=='file' and parsed.path.startswith('/'))):return None
+        if anchor:
+            if parsed.fragment and parsed.fragment!=anchor:return None
+            target=target.split('#',1)[0]+'#'+anchor
+        return quote(target,safe=":/?#[]@!$&'()*+,;=%")
+
+    def linked_paragraph(self,b,caption,plain,text_skip,formatting):
+        records=b['hyperlinks'];ranges=b.get('hyperlink_ranges');segments=b.get('segments',[])
+        if not isinstance(ranges,list) or len(ranges)!=len(records):raise BridgeError('WORD_LINK_COMPONENT_OUTDATED: 请使用支持超链接范围的配套 Word 组件')
+        if not all(isinstance(r,dict) for r in ranges):raise BridgeError('WORD_LINK_RANGE_INVALID: '+b.get('block_id',''))
+        cursor=0;parts=[]
+        if {s.get('link_index') for s in ranges}!=set(range(len(records))):raise BridgeError('WORD_LINK_RANGE_INVALID: '+b.get('block_id',''))
+        def part(items):
+            nonlocal text_skip
+            count=sum(len(s['text']) for s in items if s['kind']=='text');skip=min(text_skip,count);text_skip-=skip
+            merged=[]
+            for item in items:
+                if item['kind']=='text' and merged and merged[-1]['kind']=='text' and merged[-1].get('run_properties_raw')==item.get('run_properties_raw'):
+                    merged[-1]={**merged[-1],'text':merged[-1]['text']+item['text']}
+                else:merged.append(item)
+            return self.paragraph({'segments':merged},caption=caption,plain=plain,text_skip=skip,formatting=formatting)
+        for span in ranges:
+            start,end,index=(span.get(k) for k in ('start','end','link_index'))
+            if any(type(v) is not int for v in (start,end,index)) or not cursor<=start<=end<=len(segments) or not 0<=index<len(records):
+                raise BridgeError('WORD_LINK_RANGE_INVALID: '+b.get('block_id',''))
+            parts.append(part(segments[cursor:start]));label=part(segments[start:end]);record=records[index]
+            href=self.link_destination(record)
+            parts.append('['+label+'](<'+href+'>)' if label and href and not plain else label)
+            if not href and not plain:
+                target=(record.get('relationship') or {}).get('Target');anchor=record['attributes'].get(qn('w:anchor'))
+                key=(b.get('block_id'),index)
+                if key not in self.link_review:
+                    message='超链接目标未可靠映射，保留原文字及目标记录；请核对该链接。'
+                    location=record['attributes'].get(qn('w:docLocation'))
+                    self.link_review[key]={'block':b.get('block_id'),'text':label,'role':'hyperlink','evidence':['WORD_HYPERLINK_UNRESOLVED'],'target':target,'anchor':anchor,'doc_location':location}
+                    self.diagnostics.append({'code':'WORD_HYPERLINK_UNRESOLVED','block':b.get('block_id'),'text':label,'target':target,'anchor':anchor,'doc_location':location,'message':message})
+            cursor=end
+        parts.append(part(segments[cursor:]));return ''.join(parts)
 
     def object_xml(self, ident):
         return E.fromstring((self.work/'scan'/self.scan['objects'][ident]['payload_ref']).read_bytes())
@@ -88,6 +181,7 @@ class NativeReader:
         raise BridgeError('UNSUPPORTED_NATIVE_FIELD: ' + instruction.strip())
 
     def paragraph(self, b, caption=False, plain=False, text_skip=0, formatting=True):
+        if b.get('hyperlinks'):return self.linked_paragraph(b,caption,plain,text_skip,formatting)
         text=[];stack=[]
         for s in b.get('segments', []):
             kind=s['kind']
@@ -128,9 +222,6 @@ class NativeReader:
             elif kind=='drawing':raise BridgeError('Mixed text/drawing paragraph requires an explicit structure mapping')
             else:raise BridgeError('Unsupported native paragraph event: '+kind)
         if stack:raise BridgeError('Unclosed native field')
-        if b.get('hyperlinks'):
-            # Do not quietly discard destinations when converting visible text.
-            raise BridgeError('Native hyperlink import needs a destination-preserving mapping')
         return ''.join(text)
 
     def caption(self, b, marker):
@@ -139,6 +230,10 @@ class NativeReader:
         # with the same escaping as body text; only native OMML creates math.
         text=self.paragraph(b,caption=True,formatting=False).strip()
         parsed=caption_prefix(b.get('plain_text','').strip())
+        if parsed and parsed['label']==marker and b.get('hyperlinks') and not any(s['kind']=='field_evidence' for s in b['segments']):
+            prefix_count=len(b['plain_text'])-len(b['plain_text'].lstrip())+len(parsed['prefix'])
+            self.diagnostics.append({'code':'STATIC_CAPTION_NUMBER_NORMALIZED','block':b['block_id'],'message':'Original caption number is display text; HRS derives object numbering.'})
+            return self.paragraph(b,caption=True,formatting=False,text_skip=prefix_count).strip()
         prefix=escaped(parsed['prefix']) if parsed and parsed['label']==marker else None
         if prefix and text.startswith(prefix):
             self.diagnostics.append({'code':'STATIC_CAPTION_NUMBER_NORMALIZED','block':b['block_id'],
@@ -496,12 +591,14 @@ def import_external(rt,path,work,staged,structure_map=None):
     reader=NativeReader(rt,path,work,staged/'assets')
     decisions=load_decisions(reader,structure_map)
     recognition=analyze(reader,decisions)
+    reader.map_hyperlink_targets(recognition,decisions)
     roles={r['block_id']:r for r in recognition['roles']}
     (staged/'word-recognition.json').write_text(json.dumps(recognition,ensure_ascii=False,indent=2),encoding='utf8')
     chunks=[];skip=set();style_fragments=[];image_layouts=[]
     def heading(text, style, level, prefix=''):
         projection='heading-list' if level>6 else 'heading'
-        source=('- ' if level>6 else '#' * level+' ')+text+'\n'
+        ident=reader.link_heading_ids.get(b['block_id'])
+        source=('- ' if level>6 else '#' * level+' ')+text+(' {#'+ident+'}' if ident else '')+'\n'
         style_fragments.append((len(chunks),style,projection,prefix))
         chunks.append(source)
     groups,group_blocks=external_groups(reader,decisions,recognition)
@@ -584,6 +681,8 @@ def import_external(rt,path,work,staged,structure_map=None):
     candidate='\n'.join(chunks).encode('utf8')
     ir=rt.analyze(candidate,staged/'assets')
     origin={'schema':'hrs-word-origin-v1','markdown_sha256':sha(candidate),'word_styles':[],'image_layouts':image_layouts,'source_docx_sha256':reader.scan['source_sha256']}
+    recognition['review'].extend(reader.link_review.values());recognition['unresolved']=len(recognition['review'])
+    (staged/'word-recognition.json').write_text(json.dumps(recognition,ensure_ascii=False,indent=2),encoding='utf8')
     if recognition['review']:reader.diagnostics.append({'code':'WORD_STRUCTURE_REVIEW_RETAINED','review':recognition['review'],
         'message':'Unresolved candidate text retained; inspect word-recognition.json before treating its structure as accepted.'})
     offsets=[];offset=0
@@ -625,11 +724,16 @@ def convert(rt,source,output,provenance=None,structure_map=None):
         profile=normalize_profile(meta.get('source_render_profile') if meta else 'engineering')
         (staged/'meta.json').write_text(json.dumps({'render_profile':profile,'render_options':normalize_options(meta.get('source_render_options') if meta else None)})+'\n',encoding='utf8')
         if origin:(staged/'bridge-origin.json').write_text(json.dumps(origin,ensure_ascii=False,indent=2),encoding='utf8')
+        link_reviews=[{'block':d.get('block'),'text':d['text'],'role':'hyperlink','evidence':[d['code']],'target':d.get('target'),'anchor':d.get('anchor'),'doc_location':d.get('doc_location')} for d in diagnostics if d['code']=='WORD_HYPERLINK_UNRESOLVED']
+        if meta and link_reviews:
+            record={'schema':'hrs-word-recognition-v1','source_sha256':before,'recognizer_version':'provenance-hyperlinks-v1','model_calls':0,
+                    'roles':[],'review':link_reviews,'unresolved':len(link_reviews)}
+            (staged/'word-recognition.json').write_text(json.dumps(record,ensure_ascii=False,indent=2),encoding='utf8')
         if sha(source.read_bytes())!=before:raise BridgeError('Source DOCX changed during import')
         staged.rename(output)
     result={'ok':True,'output':str(output),'markdown_sha256':sha(candidate),'changed_blocks':changed,
             'mode':'provenance-aware' if meta else 'external-structured','diagnostics':diagnostics+ir['diagnostics']}
-    if not meta:
+    if not meta or link_reviews:
         record=json.loads((output/'word-recognition.json').read_text('utf8'))
         result['recognition']={'path':str(output/'word-recognition.json'),'unresolved':record['unresolved'],'model_calls':0}
         result['status']='NEEDS_REVIEW' if record['unresolved'] else 'COMPLETE'

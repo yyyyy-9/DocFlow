@@ -1,5 +1,12 @@
 # Bridge changes
 
+## 0.4.3
+
+- Import native w:hyperlink labels/formatting and safe destinations using the shared WPS hyperlink_ranges facts. Map unique confirmed heading/object bookmarks to existing HRS IDs; preserve unresolved/unsafe/relative target diagnostics with NEEDS_REVIEW instead of discarding targets or rejecting the whole document.
+- Emit native Word anchors for HRS internal links and include anchor/docLocation changes in semantic fingerprints. Coalesce adjacent equally formatted text inside linked paragraphs before Markdown emission.
+- Keep source documents, existing group identities, numbering rules, source-bound review and original import limits. Scanner range fidelity and existing number-fact audits run independently; the Forms version/protocol remain 0.1.6/0.5.7 with a new factual build identity.
+- Add synthetic pure-data regressions to the existing core/bridge test entry; independently exercise both HRS component and canonical compositions.
+
 ## 0.4.2
 
 - Wait for the HRS programmatic API after asynchronous application initialization, with a bounded timeout.

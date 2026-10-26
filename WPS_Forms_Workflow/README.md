@@ -2,6 +2,8 @@
 
 基于 `20261022.caption-role-r2`，复用原 Word→Word 内核协议0.5.7。提供目录树与三份 Excel 表单，不含模型 API。人或外层 Agent 使用相同入口。当前独立三表与旧WPS、Bridge、HRS保持各自身份。
 
+当前构建在原事实层补充`hyperlink_ranges`（原链接记录、文字和源定位保留），供Bridge保留原生链接。独立扫描校验核对范围、文字及目标，原编号事实审计继续执行；三表0.1.6、协议0.5.7及正文识别/编号/模板规则保持，具体构建号见BUILD_INFO。
+
 ## 诊断身份与一键清理（0.1.6）
 
 `python report_tool.py doctor`、`python forms_tool.py doctor`和`run.cmd doctor`同时返回`forms_version`、`kernel_protocol`、`build_id`。三表版本描述此工具，0.5.7是复用内核的协议号。实际代码、BUILD_INFO、config和发行清单不一致时，诊断报错；`READY`只表示当前安装诊断，不等于文档识别/页面验收通过。

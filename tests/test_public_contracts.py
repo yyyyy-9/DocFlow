@@ -10,6 +10,9 @@ class PublicContracts(unittest.TestCase):
         from maintain_manifest import maintain
         from check_publication import check
         self.assertEqual(maintain()['suite'], json.loads((ROOT/'release.json').read_text('utf8'))['version'])
+        core=ROOT/'WPS_Forms_Workflow';identity=json.loads((core/'BUILD_INFO.json').read_text('utf8'))
+        for name in ('MANIFEST.json','release_manifest.json'):
+            self.assertEqual(json.loads((core/name).read_text('utf8'))['build_id'],identity['build_id'])
         self.assertEqual(check()['status'], 'PASS')
 
     def test_cli_and_default_runtime_share_the_same_kernel(self):

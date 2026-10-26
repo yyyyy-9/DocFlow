@@ -1,7 +1,7 @@
 {
   "version": "0.5.7",
   "forms_version": "0.1.6",
-  "build_id": "20261024.docflow-public-r1",
+  "build_id": "20261026.hyperlink-facts-r1",
   "files": [
     {
       "path": "AGENTS.md",
@@ -10,8 +10,8 @@
     },
     {
       "path": "BUILD_INFO.json",
-      "bytes": 557,
-      "sha256": "62bb5a016ca4f7668ef9f43eadd437f492b4413f2a4046d69954581461385c51"
+      "bytes": 558,
+      "sha256": "45fbd4738e8f9f16264c1018f04f8babcda641eb96f6e94e99a558b8d7b089a3"
     },
     {
       "path": "PIPELINE.md",
@@ -20,8 +20,8 @@
     },
     {
       "path": "README.md",
-      "bytes": 24872,
-      "sha256": "8927a727aa1c458e3633062e389a16e47b49848b87216a02846889d9d0b816cd"
+      "bytes": 25193,
+      "sha256": "271eb669e83101a2e2bdd1544c5bb43a3e15eb13f73e0bae410ce3efcac83bfb"
     },
     {
       "path": "TEMPLATE_REQUIREMENTS.md",
@@ -195,8 +195,8 @@
     },
     {
       "path": "src/wps_pipeline/scan_docx.py",
-      "bytes": 19037,
-      "sha256": "bd37e26f183aa3a1912aefe6a293fbfb7d9c0b9ffe3c48f9dee0bfad1a288e3e"
+      "bytes": 19242,
+      "sha256": "1b19d4c877c8703218c1dc79db9aad22442b53fdb1dea14ab448ae7b7a6a82a5"
     },
     {
       "path": "src/wps_pipeline/source_inventory.py",
@@ -240,8 +240,8 @@
     },
     {
       "path": "src/wps_pipeline/verify_scan_fidelity.py",
-      "bytes": 10330,
-      "sha256": "494ab359e2d9b330fbcdda753c52f0f801cd097cc19ef6385b6c6611d706a098"
+      "bytes": 11363,
+      "sha256": "92fd2b9235e54a91b0986d3134271c6dd37b8fc105b276944ef90d0063c66cda"
     },
     {
       "path": "src/wps_pipeline/workflow.py",

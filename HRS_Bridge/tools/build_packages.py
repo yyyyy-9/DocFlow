@@ -70,7 +70,7 @@ def main():
 运行 `python bridge.py run-job job.json`。新三表任务类型是 wps-forms；首稿后从回执取得当前02/03，使用forms-submit生成分类/反馈新稿。
 HRS/Markdown/HTML和原生docx/wps-job入口保持。旧0.2.9/0.4.0任务保留原包和原指纹；不能改冻结哈希升级任务。
 
-Clean包含实现、原样HRS2.0核心、原样三表0.1.6共享内核及必要说明，没有测试/运行/个人配置。
+Clean包含实现、SOURCES.json指定的HRS App、当前三表0.1.6共享内核构建及必要说明，没有测试/运行/个人配置。
 Full增加当前测试、固定输入、CPython3.12/Win64离线wheel、CP313 Word组件wheel和playwright-core，不内置Python、Node、Chrome、Pandoc或WPS。
 Full可离线安装 `python -m pip install --no-index --find-links offline/wheels -r HRS_Bridge/requirements.txt`。
 Word→Word三表不需要Node/Chrome/Pandoc；HRS浏览器CLI需已安装Node20+及Chrome，公式转换需Pandoc。WPS原生接入能力还需本机WPS与pywin32。

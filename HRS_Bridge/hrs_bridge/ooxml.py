@@ -73,7 +73,11 @@ def native_snapshot(nodes,parts,relationships=None):
             if name=='hyperlink' and e.get(qn('r:id')):
                 rid=e.get(qn('r:id'))
                 if rels is None or rid not in rels:raise BridgeError('Missing native hyperlink relationship context')
-                append(['hyperlink',rels[rid].target_ref,sequence(e,rels)])
+                locations={k:e.get(qn('w:'+k)) for k in ('anchor','docLocation') if e.get(qn('w:'+k))}
+                append(['hyperlink',rels[rid].target_ref,*([locations] if locations else []),sequence(e,rels)])
+                return
+            if name=='hyperlink' and (e.get(qn('w:anchor')) or e.get(qn('w:docLocation'))):
+                append(['hyperlink-anchor',e.get(qn('w:anchor')),e.get(qn('w:docLocation')),sequence(e,rels)])
                 return
             if name in ('r','hyperlink','smartTag'):
                 if name=='r':

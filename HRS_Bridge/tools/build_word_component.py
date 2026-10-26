@@ -67,7 +67,7 @@ def main():
         raise ValueError('HRS page model mismatch; this component cannot update that application')
     for name in ('LICENSE','COPYRIGHT'):files[name]=(a.hrs_app/name).read_bytes()
     files['README.txt']=('HRS Word support '+version()+'; CPython3.13/Windows x64.\n'
-        'Uses the existing HRS 2.0 page and model, with the current Bridge and unchanged Forms0.1.6 kernel.\n'
+        'Uses the HRS 2.0 page and model, with the current Bridge and Forms0.1.6 kernel build recorded in MANIFEST.json.\n'
         'Four pinned libraries; no Node/browser/Office runtime is embedded. Pandoc is selected separately.\n'
         'Use a new directory, select it in HRS Word support settings, and retain existing user data.\n').encode()
     files['SOURCE.txt']=('Matching source: HRS_Bridge_v'+version()+'_Full.zip / HRS_Bridge and WPS_Document_Tool.\n'

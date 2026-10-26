@@ -11,7 +11,7 @@ def main():
     os.environ['HRS_ROOT']=str(ROOT/'HTML_Report_Studio');os.environ['WPS_ROOT']=str(ROOT/'WPS_Forms_Workflow');os.environ['WPS_FORMS_ROOT']=str(ROOT/'WPS_Forms_Workflow')
     modules=[]
     if a.group in ('core','all'):modules+=['test_public_contracts','test_ui_workflow']
-    if a.group=='core':modules+=['test_forms_workflow']
+    if a.group=='core':modules+=['test_forms_workflow','test_hyperlinks']
     else:modules += [p.stem for p in sorted((ROOT/'HRS_Bridge/tests').glob('test_*.py'))]
     if a.group in ('bridge','all') and not (ROOT/'HRS_Bridge/fixtures/hrs_sample.html').is_file():
         args=[sys.executable,'-X','utf8','-B',str(ROOT/'tools/create_public_fixture.py'),'--archive']

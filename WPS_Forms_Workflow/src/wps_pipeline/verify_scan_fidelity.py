@@ -76,6 +76,20 @@ def verify(source,scan_dir,source_scope=None):
             rels={x.get('Id'):dict(x.attrib) for x in source_rels}
             expected_links=[{'attributes':dict(x.attrib),'relationship':rels.get(x.get('{'+NS['r']+'}id'))} for x in source_node.findall('.//w:hyperlink',NS)]
             check(b.get('hyperlinks',[])==expected_links,f'{bid}:hyperlink_targets_and_attributes')
+            if 'hyperlink_ranges' in b:
+                spans=b['hyperlink_ranges'];nodes=source_node.findall('.//w:hyperlink',NS)
+                check(len(spans)==len(nodes),f'{bid}:hyperlink_range_count')
+                seen=set()
+                for span in spans:
+                    index,start,end=(span.get(k) for k in ('link_index','start','end'))
+                    valid=all(type(v) is int for v in (index,start,end)) and 0<=index<len(nodes) and 0<=start<=end<=len(b['segments'])
+                    check(valid,f'{bid}:hyperlink_range_bounds')
+                    if not valid:continue
+                    seen.add(index)
+                    actual=''.join(s['text'] for s in b['segments'][start:end] if s['kind']=='text')
+                    wanted=''.join(nodes[index].xpath('.//w:t[not(ancestor::w:fldSimple)]/text()',namespaces=NS))
+                    check(actual==wanted,f'{bid}:hyperlink_range_label')
+                check(seen==set(range(len(nodes))),f'{bid}:hyperlink_range_identity')
             return ['paragraph',events]
         if b['kind']=='table':
             rows=[[] for _ in range(b['rows'])]
@@ -127,7 +141,7 @@ def verify(source,scan_dir,source_scope=None):
     check(declared_marks==actual_marks,'bookmark_names_and_order')
     counts=Counter(o['kind'] for o in scan['objects'].values())
     format_audit=None
-    if scan.get('scan_version') in ('2.0.0-experimental.4','2.0.0-experimental.5','2.0.0-experimental.6','2.0.0-experimental.7'):
+    if scan.get('scan_version') in ('2.0.0-experimental.4','2.0.0-experimental.5','2.0.0-experimental.6','2.0.0-experimental.7','2.0.0-experimental.8'):
         from .verify_number_facts import audit
         format_audit=audit(source,scan);checks+=format_audit['checks'];errors.extend(format_audit['errors'])
     return {'source':Path(source).name,'status':'PASS' if not errors else 'FAIL','checks':checks,'errors':errors,

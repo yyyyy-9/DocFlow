@@ -1,6 +1,6 @@
 {
   "name": "hrs-wps-bridge",
-  "version": "0.4.2",
+  "version": "0.4.3",
   "private": true,
   "description": "Local adapter using existing HRS and WPS engines",
   "engines": {

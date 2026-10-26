@@ -20,15 +20,17 @@ def maintain(write=False):
         if write:path.write_bytes(data)
         elif path.read_bytes()!=data:raise ValueError('Stale generated metadata: '+str(path.relative_to(ROOT)))
     core=ROOT/'WPS_Forms_Workflow'
+    forms=json.loads((core/'BUILD_INFO.json').read_text('utf8'))
     for name in ('release_manifest.json','MANIFEST.json'):
         p=core/name;obj=json.loads(p.read_text('utf8'))
+        for key,value in (('version',forms['protocol']),('forms_version',forms['forms_version']),('build_id',forms['build_id'])):
+            if key in obj:obj[key]=value
         for row in obj['files']:
             data=(core/row['path']).read_bytes();row.update(bytes=len(data),sha256=digest(data))
         output(p,obj)
     bridge=constants(ROOT/'HRS_Bridge/hrs_bridge/__init__.py','__version__')['__version__']
     p=ROOT/'HRS_Bridge/package.json';meta=json.loads(p.read_text('utf8'));meta['version']=bridge;output(p,meta)
     ui=constants(ROOT/'WPS_Forms_UI/wps_forms_ui.py','VERSION','BUILD_ID')
-    forms=json.loads((core/'BUILD_INFO.json').read_text('utf8'))
     assert constants(core/'src/wps_pipeline/forms_workflow.py','FORMS_VERSION')['FORMS_VERSION']==forms['forms_version']
     assert constants(core/'src/wps_pipeline/job_support.py','VERSION')['VERSION']==forms['protocol']
     tool=json.loads((ROOT/'WPS_Forms_UI/tools/template_style/COMPONENT_MANIFEST.json').read_text('utf8'))
