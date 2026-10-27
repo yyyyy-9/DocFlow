@@ -5,9 +5,9 @@
 ## 本次版本与依赖
 
 - Bridge 唯一身份源为 `hrs_bridge/__init__.py`；`package.json`与根目录COMPONENTS.json由`tools/maintain_manifest.py`同步。
-- DocFlow源码的HRS子模块仍固定公开2.0.0，不自动升级；独立Bridge0.4.3包明确装入HRS2.0.7 App，实际输入与哈希见SOURCES.json。两者复用同一页面模型，保留document-v2、公式编号/引用和数学适配。
+- DocFlow源码固定引用HRS2.0.7；整体下载包与独立Bridge0.4.3包使用同一HRS App和页面模型。实际源码引用与附件组成见release.json、COMPONENTS.json及包内清单，独立包输入另见SOURCES.json。document-v2、公式编号/引用和数学适配保留。
 - 三表0.1.6 / 内核协议0.5.7只保留一份共享源码。公开构建身份见BUILD_INFO与COMPONENTS；本次内核构建仅增加原生链接范围事实与独立核对，原编号事实校验继续执行，正文识别/编号规则保持，公开文档和通用封面模板随发行提供。`forms_tool`和`report_tool`共用这一份内核。
-- UI0.1.2与Bridge共享内核，各自控制任务分支。HRS固定引用公开版本；已有冻结任务继续使用匹配的程序与指纹。
+- UI0.1.2与Bridge共享内核，各自控制任务分支。HRS子模块固定到本次公开2.0.7提交；已有冻结任务继续使用匹配的程序与指纹，不自动迁移。
 
 Python 3.12+。Clean 包包含实现和必要说明；DocFlow Full增加当前测试/自造输入、CPython3.12 Win64离线wheel与playwright-core。Python、Node、Chrome、Pandoc、WPS 不重复嵌入。
 

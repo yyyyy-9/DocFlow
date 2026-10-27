@@ -3,7 +3,7 @@
   "version": "0.1.2",
   "repository": "yyyyy-9/DocFlow",
   "license": "GPL-3.0-or-later",
-  "hrs_commit": "0ce60d9def82c37d1a8738c34c478aff8e861276",
+  "hrs_commit": "380f7205fe815c0fab22bfdab23f7285738397bb",
   "source_components": {
     "bridge": "59b2366c193eff2557fe217fdf97edeba016f8a2",
     "ui_zip_sha256": "deff403b8dd1a80ac22cd88f96902546e797e973f1816ba255d8dee22fa38b3a"

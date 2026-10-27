@@ -1,8 +1,8 @@
 # Changelog
 
-## 0.1.2 (local preparation)
+## 0.1.2
 
-Bridge 0.4.3 adds native Word hyperlink import/export and target-aware round trips. The shared Forms0.1.6 kernel gains hyperlink range facts and fidelity checks; metadata is generated from BUILD_INFO. UI0.1.2, template tool1.0.3 and the fixed HRS submodule remain unchanged. Separate Bridge packages declare their newer HRS App input explicitly; no public release or submodule update is implied.
+Bridge 0.4.3 adds native Word hyperlink import/export and target-aware round trips. The shared Forms0.1.6 kernel gains hyperlink range facts and fidelity checks; metadata is generated from BUILD_INFO. UI0.1.2 and template tool1.0.3 remain unchanged. Pin the HRS submodule to2.0.7, matching the App used by standalone Bridge packages; source and downloadable suite compositions now use the same editor core.
 
 ## 0.1.1
 
